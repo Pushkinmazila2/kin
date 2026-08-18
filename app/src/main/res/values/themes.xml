@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Меняем parent с Theme.AppCompat на Theme.MaterialComponents -->
+    <style name="Theme.AppCompat.Light.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Базовые цвета интерфейса -->
+        <item name="colorPrimary">#008577</item>
+        <item name="colorPrimaryDark">#00574B</item>
+        <item name="colorAccent">#D81B60</item>
+    </style>
+</resources>

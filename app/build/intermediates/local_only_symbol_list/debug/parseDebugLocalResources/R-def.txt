@@ -1,4 +1,13 @@
 R_DEF: Internal format may change without notice
 local
+id btnOpenMenu
+id btnSaveUrl
+id drawerLayout
+id etTargetUrl
 id myWebView
+id navigationView
 layout activity_main
+string app_name
+string close_drawer
+string open_drawer
+style Theme.AppCompat.Light.NoActionBar

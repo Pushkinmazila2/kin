@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KinApp</string>
+    <string name="open_drawer">Открыть меню настроек</string>
+    <string name="close_drawer">Закрыть меню настроек</string>
+</resources>

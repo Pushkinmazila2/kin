@@ -1,13 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://android.com"
-    xmlns:tools="http://android.com"
+<androidx.drawerlayout.widget.DrawerLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/myWebView"
+    <!-- Основной контент экрана -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <WebView
+            android:id="@+id/myWebView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Маленькая плавающая кнопка сверху слева для открытия сайдбара -->
+        <ImageButton
+            android:id="@+id/btnOpenMenu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_sort_by_size"
+            android:contentDescription="@string/open_drawer" />
+    </RelativeLayout>
+
+    <!-- Выдвижная панель (Сайдбар) -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#FFFFFF"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Настройки адреса"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Введите URL сайта:"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etTargetUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="https://example.com"
+                android:inputType="textUri"
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnSaveUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Сохранить и обновить" />
+        </LinearLayout>
+
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>
