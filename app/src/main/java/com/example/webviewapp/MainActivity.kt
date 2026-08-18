@@ -117,14 +117,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ЗАПУСК ВСТРОЕННОГО ПЛЕЕРА EXOPLAYER
-    private fun startBuiltInPlayer(url: String) {
-        // Скрываем WebView и кнопку меню, показываем плеер
+    // ЗАПУСК ВСТРОЕННОГО ПЛЕЕРА EXOPLAYER С ПОДДЕРЖКОЙ ПОЛНОГО ЭКРАНА
+        private fun startBuiltInPlayer(url: String) {
+        // 1. ПОЛНОСТЬЮ СКРЫВАЕМ WEBVIEW, чтобы JS на сайте не перезагружал страницу при смене разрешения!
+        webView.visibility = View.GONE
+        webView.onPause()
+        webView.pauseTimers()
+
         playerView.visibility = View.VISIBLE
         fabPlayVideo.visibility = View.GONE
 
         exoPlayer = ExoPlayer.Builder(this).build().also { player ->
             playerView.player = player
+            
+            // ОБРАБОТКА КНОПКИ ПОЛНОГО ЭКРАНА
+            playerView.setFullscreenButtonClickListener { isFullscreen ->
+                if (isFullscreen) {
+                    requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                    hideSystemUi()
+                } else {
+                    requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    showSystemUi()
+                }
+            }
+
             val mediaItem = MediaItem.fromUri(url)
             player.setMediaItem(mediaItem)
             player.prepare()
@@ -132,7 +148,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ОСТАНОВКА ПЛЕЕРА
+    // Вспомогательная функция для скрытия шторки уведомлений и кнопок Android
+    private fun hideSystemUi() {
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+    }
+
+    // Вспомогательная функция для возврата стандартного интерфейса смартфона
+    private fun showSystemUi() {
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+    }
+
+    // ОСТАНОВКА ПЛЕЕРА С ВОССТАНОВЛЕНИЕМ WEBVIEW
     private fun stopBuiltInPlayer() {
         exoPlayer?.let { player ->
             player.stop()
@@ -142,7 +172,14 @@ class MainActivity : AppCompatActivity() {
         playerView.player = null
         playerView.visibility = View.GONE
         
-        // Возвращаем кнопку перехвата, если ссылка все еще активна
+        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        showSystemUi()
+        
+        // ВЕРТИКАЛЬНЫЙ РЕЖИМ ВОССТАНОВЛЕН: Оживляем и показываем WebView обратно
+        webView.visibility = View.VISIBLE
+        webView.onResume()
+        webView.resumeTimers()
+        
         if (detectedM3u8Url != null) {
             fabPlayVideo.visibility = View.VISIBLE
         }

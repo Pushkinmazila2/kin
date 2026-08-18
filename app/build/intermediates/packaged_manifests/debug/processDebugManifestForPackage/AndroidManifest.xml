@@ -26,8 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true" >
+
+        <!-- Параметр перенесен строго СЮДА, внутрь тега activity -->
         <activity
             android:name="com.example.webviewapp.MainActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden|navigation|density|uiMode"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
