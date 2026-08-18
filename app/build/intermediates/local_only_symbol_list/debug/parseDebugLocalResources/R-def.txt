@@ -4,8 +4,10 @@ id btnOpenMenu
 id btnSaveUrl
 id drawerLayout
 id etTargetUrl
+id fabPlayVideo
 id myWebView
 id navigationView
+id playerView
 layout activity_main
 string app_name
 string close_drawer

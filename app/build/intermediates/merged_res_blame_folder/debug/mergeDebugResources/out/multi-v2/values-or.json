@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.webviewapp-mergeDebugResources-29:/values-or/values-or.xml",
+            "outputFile": "com.example.webviewapp-mergeDebugResources-33:/values-or/values-or.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Admin\\.gradle-vscode-android-ide-extension\\caches\\9.2.0\\transforms\\aa191b9b2c3d46e0dcb6c81cb785b8c8\\workspace\\transformed\\core-1.9.0\\res\\values-or\\values-or.xml",

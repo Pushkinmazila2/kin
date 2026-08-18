@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.webviewapp-mergeDebugResources-29:/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "com.example.webviewapp-mergeDebugResources-33:/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Admin\\.gradle-vscode-android-ide-extension\\caches\\9.2.0\\transforms\\5cb7820f8cbc2e92989856c2cfcab92e\\workspace\\transformed\\appcompat-1.6.1\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
