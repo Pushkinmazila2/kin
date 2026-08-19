@@ -152,8 +152,40 @@ class MainActivity : AppCompatActivity() {
         }
 
         fabPlayVideo.setOnClickListener {
-            detectedM3u8Url?.let { url -> startBuiltInPlayer(url) }
+            detectedM3u8Url?.let { m3u8Url ->
+                // Получаем текущий URL страницы сайта
+                val currentWebUrl = webView.url
+
+                if (currentWebUrl != null) {
+                    val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+                    val savedPosition = sharedPreferences.getLong(currentWebUrl, 0L)
+
+                    if (savedPosition > 0L) {
+                        // Если нашли сохраненный момент для этой страницы, предлагаем выбор
+                        androidx.appcompat.app.AlertDialog.Builder(this)
+                            .setTitle("Продолжить просмотр?")
+                            .setMessage("Вы остановились на моменте ${formatTime(savedPosition)}")
+                            .setPositiveButton("Продолжить") { _, _ ->
+                                startBuiltInPlayer(m3u8Url, savedPosition)
+                            }
+                            .setNegativeButton("Сначала") { _, _ ->
+                                // Стираем кэш для этой страницы, если выбрали сначала
+                                sharedPreferences.edit().remove(currentWebUrl).apply() 
+                                startBuiltInPlayer(m3u8Url, 0L)
+                            }
+                            .setCancelable(true)
+                            .show()
+                    } else {
+                        // Если для этой страницы истории нет, запускаем с нуля
+                        startBuiltInPlayer(m3u8Url, 0L)
+                    }
+                } else {
+                    // На всякий случай, если URL страницы вдруг пустой
+                    startBuiltInPlayer(m3u8Url, 0L)
+                }
+            }
         }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerReceiver(pipReceiver, IntentFilter(ACTION_MEDIA_CONTROL), Context.RECEIVER_EXPORTED)
@@ -161,7 +193,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startBuiltInPlayer(url: String) {
+    private fun startBuiltInPlayer(url: String, startPosition: Long = 0L) {
         playerView.visibility = View.VISIBLE
         fabPlayVideo.visibility = View.GONE
 
@@ -174,10 +206,16 @@ class MainActivity : AppCompatActivity() {
 
             val mediaItem = MediaItem.fromUri(url)
             player.setMediaItem(mediaItem)
+            
+            if (startPosition > 0L) {
+                player.seekTo(startPosition)
+            }
+            
             player.prepare()
             player.play()
         }
     }
+
 
     private fun enterPipMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -199,33 +237,19 @@ class MainActivity : AppCompatActivity() {
             val controlType = if (isPlaying) CONTROL_TYPE_PAUSE else CONTROL_TYPE_PLAY
 
             val intent = Intent(ACTION_MEDIA_CONTROL).apply {
-                `package` = packageName // Жестко привязываем интент к нашему приложению
+                `package` = packageName
                 putExtra(EXTRA_CONTROL_TYPE, controlType)
             }
             
-            // Используем уникальный requestCode для каждого типа события (controlType)
             val pendingIntent = PendingIntent.getBroadcast(
-                this, 
-                controlType, 
-                intent, 
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                this, controlType, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
-            val action = RemoteAction(
-                Icon.createWithResource(this, iconRes),
-                title,
-                title,
-                pendingIntent
-            )
-            actions.add(action)
-
-            val pipParams = PictureInPictureParams.Builder()
-                .setActions(actions)
-                .build()
-            
-            setPictureInPictureParams(pipParams)
+            actions.add(RemoteAction(Icon.createWithResource(this, iconRes), title, title, pendingIntent))
+            setPictureInPictureParams(PictureInPictureParams.Builder().setActions(actions).build())
         }
     }
+
 
 
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
@@ -249,6 +273,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun hideSystemUi() {
         @Suppress("DEPRECATION")
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -263,6 +288,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun stopBuiltInPlayer() {
         exoPlayer?.let { player ->
+            val currentWebUrl = webView.url 
+            if (currentWebUrl != null) {
+                val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+                val currentPosition = player.currentPosition
+                val duration = player.duration
+
+                if (currentPosition > 5000 && (duration == -1L || currentPosition < duration - 5000)) {
+                    sharedPreferences.edit().putLong(currentWebUrl, currentPosition).apply()
+                } else {
+                    sharedPreferences.edit().remove(currentWebUrl).apply()
+                }
+            }
             player.stop()
             player.release()
         }
@@ -281,7 +318,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
-        // Если плеер активен и виден, то при выходе из приложения автоматически включаем PiP
         if (playerView.visibility == View.VISIBLE && exoPlayer != null) {
             enterPipMode()
         }
@@ -304,5 +340,17 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         try { unregisterReceiver(pipReceiver) } catch (e: Exception) { e.printStackTrace() }
+    }
+
+    private fun formatTime(ms: Long): String {
+        val totalSeconds = ms / 1000
+        val seconds = totalSeconds % 60
+        val minutes = (totalSeconds / 60) % 60
+        val hours = totalSeconds / 3600
+        return if (hours > 0) {
+            String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            String.format("%02d:%02d", minutes, seconds)
+        }
     }
 }
