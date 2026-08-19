@@ -1,7 +1,18 @@
 package com.example.webviewapp
 
+import android.app.PendingIntent
+import android.app.PictureInPictureParams
+import android.app.RemoteAction
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Bundle
+import android.util.Rational
 import android.view.View
 import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
@@ -12,6 +23,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -25,13 +37,34 @@ class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var drawerLayout: DrawerLayout
     
-    // Переменные для плеера
     private lateinit var playerView: PlayerView
     private var exoPlayer: ExoPlayer? = null
     private lateinit var fabPlayVideo: FloatingActionButton
     private var detectedM3u8Url: String? = null
 
     private val DEFAULT_URL = "https://kinvd.xyz"
+
+    private val ACTION_MEDIA_CONTROL = "media_control"
+    private val EXTRA_CONTROL_TYPE = "control_type"
+    private val CONTROL_TYPE_PLAY = 1
+    private val CONTROL_TYPE_PAUSE = 2
+
+    private val pipReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action != ACTION_MEDIA_CONTROL) return
+            val controlType = intent.getIntExtra(EXTRA_CONTROL_TYPE, 0)
+            when (controlType) {
+                CONTROL_TYPE_PLAY -> {
+                    exoPlayer?.play()
+                    updatePipParams(true)
+                }
+                CONTROL_TYPE_PAUSE -> {
+                    exoPlayer?.pause()
+                    updatePipParams(false)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +79,27 @@ class MainActivity : AppCompatActivity() {
         val etTargetUrl: EditText = findViewById(R.id.etTargetUrl)
         val btnSaveUrl: Button = findViewById(R.id.btnSaveUrl)
 
-        // Инициализация WebView
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (playerView.visibility == View.VISIBLE) {
+                    enterPipMode()
+                } else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else if (webView.canGoBack()) {
+                    webView.goBack()
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
+            }
+        })
+
         webView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
             databaseEnabled = true
-            mediaPlaybackRequiresUserGesture = false // Разрешаем автоплей медиа сайту
+            mediaPlaybackRequiresUserGesture = false
         }
 
         CookieManager.getInstance().apply {
@@ -59,17 +107,13 @@ class MainActivity : AppCompatActivity() {
             setAcceptThirdPartyCookies(webView, true)
         }
 
-        // НАСТРОЙКА ПЕРЕХВАТА ССЫЛОК
         webView.webViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
                 val url = request?.url?.toString()
-                
                 if (url != null && (url.contains(".m3u8") || url.contains("master.m3u8"))) {
                     detectedM3u8Url = url
-                    
-                    // Потоковые запросы идут в фоновом потоке, переключаемся на главный UI-поток
                     runOnUiThread {
-                        if (fabPlayVideo.visibility != View.VISIBLE) {
+                        if (fabPlayVideo.visibility != View.VISIBLE && playerView.visibility != View.VISIBLE) {
                             fabPlayVideo.visibility = View.VISIBLE
                             Toast.makeText(this@MainActivity, "Видео-поток обнаружен!", Toast.LENGTH_SHORT).show()
                         }
@@ -80,7 +124,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
                 super.onPageStarted(view, url, favicon)
-                // При переходе на новую страницу сбрасываем старую ссылку
                 runOnUiThread {
                     fabPlayVideo.visibility = View.GONE
                     detectedM3u8Url = null
@@ -88,7 +131,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Загрузка адреса
         val sharedPreferences = getSharedPreferences("AppConfig", Context.MODE_PRIVATE)
         val savedUrl = sharedPreferences.getString("saved_url", DEFAULT_URL) ?: DEFAULT_URL
         etTargetUrl.setText(savedUrl)
@@ -109,37 +151,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // ЛОГИКА НАЖАТИЯ НА КНОПКУ ПЛЕЕРА
         fabPlayVideo.setOnClickListener {
-            detectedM3u8Url?.let { url ->
-                startBuiltInPlayer(url)
-            }
+            detectedM3u8Url?.let { url -> startBuiltInPlayer(url) }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(pipReceiver, IntentFilter(ACTION_MEDIA_CONTROL), Context.RECEIVER_EXPORTED)
+
         }
     }
 
-    // ЗАПУСК ВСТРОЕННОГО ПЛЕЕРА EXOPLAYER С ПОДДЕРЖКОЙ ПОЛНОГО ЭКРАНА
-        private fun startBuiltInPlayer(url: String) {
-        // 1. ПОЛНОСТЬЮ СКРЫВАЕМ WEBVIEW, чтобы JS на сайте не перезагружал страницу при смене разрешения!
-        webView.visibility = View.GONE
-        webView.onPause()
-        webView.pauseTimers()
-
+    private fun startBuiltInPlayer(url: String) {
         playerView.visibility = View.VISIBLE
         fabPlayVideo.visibility = View.GONE
 
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        hideSystemUi()
+
         exoPlayer = ExoPlayer.Builder(this).build().also { player ->
             playerView.player = player
-            
-            // ОБРАБОТКА КНОПКИ ПОЛНОГО ЭКРАНА
-            playerView.setFullscreenButtonClickListener { isFullscreen ->
-                if (isFullscreen) {
-                    requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-                    hideSystemUi()
-                } else {
-                    requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    showSystemUi()
-                }
-            }
+            playerView.setFullscreenButtonClickListener { stopBuiltInPlayer() }
 
             val mediaItem = MediaItem.fromUri(url)
             player.setMediaItem(mediaItem)
@@ -148,7 +179,76 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Вспомогательная функция для скрытия шторки уведомлений и кнопок Android
+    private fun enterPipMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val aspectRatio = Rational(16, 9)
+            val pipParams = PictureInPictureParams.Builder().setAspectRatio(aspectRatio).build()
+            updatePipParams(exoPlayer?.isPlaying == true)
+            enterPictureInPictureMode(pipParams)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            @Suppress("DEPRECATION")
+            enterPictureInPictureMode()
+        }
+    }
+
+    private fun updatePipParams(isPlaying: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val actions = ArrayList<RemoteAction>()
+            val iconRes = if (isPlaying) android.R.drawable.ic_media_pause else android.R.drawable.ic_media_play
+            val title = if (isPlaying) "Пауза" else "Воспроизвести"
+            val controlType = if (isPlaying) CONTROL_TYPE_PAUSE else CONTROL_TYPE_PLAY
+
+            val intent = Intent(ACTION_MEDIA_CONTROL).apply {
+                `package` = packageName // Жестко привязываем интент к нашему приложению
+                putExtra(EXTRA_CONTROL_TYPE, controlType)
+            }
+            
+            // Используем уникальный requestCode для каждого типа события (controlType)
+            val pendingIntent = PendingIntent.getBroadcast(
+                this, 
+                controlType, 
+                intent, 
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val action = RemoteAction(
+                Icon.createWithResource(this, iconRes),
+                title,
+                title,
+                pendingIntent
+            )
+            actions.add(action)
+
+            val pipParams = PictureInPictureParams.Builder()
+                .setActions(actions)
+                .build()
+            
+            setPictureInPictureParams(pipParams)
+        }
+    }
+
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        val btnOpenMenu: ImageButton = findViewById(R.id.btnOpenMenu)
+
+        if (isInPictureInPictureMode) {
+            playerView.useController = false
+            webView.visibility = View.GONE
+            btnOpenMenu.visibility = View.GONE
+            fabPlayVideo.visibility = View.GONE
+        } else {
+            playerView.useController = true
+            webView.visibility = View.VISIBLE
+            btnOpenMenu.visibility = View.VISIBLE
+            if (exoPlayer == null) {
+                stopBuiltInPlayer()
+            } else {
+                fabPlayVideo.visibility = View.GONE 
+            }
+        }
+    }
+
     private fun hideSystemUi() {
         @Suppress("DEPRECATION")
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -156,13 +256,11 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
     }
 
-    // Вспомогательная функция для возврата стандартного интерфейса смартфона
     private fun showSystemUi() {
         @Suppress("DEPRECATION")
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
     }
 
-    // ОСТАНОВКА ПЛЕЕРА С ВОССТАНОВЛЕНИЕМ WEBVIEW
     private fun stopBuiltInPlayer() {
         exoPlayer?.let { player ->
             player.stop()
@@ -172,37 +270,39 @@ class MainActivity : AppCompatActivity() {
         playerView.player = null
         playerView.visibility = View.GONE
         
-        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         showSystemUi()
-        
-        // ВЕРТИКАЛЬНЫЙ РЕЖИМ ВОССТАНОВЛЕН: Оживляем и показываем WebView обратно
         webView.visibility = View.VISIBLE
-        webView.onResume()
-        webView.resumeTimers()
         
         if (detectedM3u8Url != null) {
             fabPlayVideo.visibility = View.VISIBLE
         }
     }
 
-    // ИЗМЕНЯЕМ ЛОГИКУ НАЗАД: Если запущен плеер — закрываем плеер
-    override fun onBackPressed() {
-        if (playerView.visibility == View.VISIBLE) {
-            stopBuiltInPlayer()
-        } else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else if (::webView.isInitialized && webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        // Если плеер активен и виден, то при выходе из приложения автоматически включаем PiP
+        if (playerView.visibility == View.VISIBLE && exoPlayer != null) {
+            enterPipMode()
         }
     }
 
-    // Важно освобождать ресурсы плеера, если приложение свернули
+    override fun onPause() {
+        super.onPause()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !isInPictureInPictureMode) {
+            exoPlayer?.pause()
+        }
+    }
+
     override fun onStop() {
         super.onStop()
-        if (playerView.visibility == View.VISIBLE) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !isInPictureInPictureMode) {
             stopBuiltInPlayer()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try { unregisterReceiver(pipReceiver) } catch (e: Exception) { e.printStackTrace() }
     }
 }
