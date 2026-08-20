@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.drawable.Icon
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Rational
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private var exoPlayer: ExoPlayer? = null
     private lateinit var fabPlayVideo: FloatingActionButton
     private var detectedM3u8Url: String? = null
+    private var pendingPosterUrl: String? = null
 
     private val DEFAULT_URL = "https://kinvd.xyz"
 
@@ -183,37 +185,40 @@ class MainActivity : AppCompatActivity() {
 
         fabPlayVideo.setOnClickListener {
             detectedM3u8Url?.let { m3u8Url ->
-                val vodId = extractVodId(webView.url) ?: webView.url
-                if (vodId != null) {
-                    val prefs = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
-                    val savedPosition = prefs.getLong(vodId, 0L)
-                    val savedTimestamp = prefs.getString("${vodId}_time", "")
-                    val savedEpisode = prefs.getString("${vodId}_episode", "")
+                extractPosterUrl { posterUrl ->
+                    pendingPosterUrl = posterUrl
+                    val vodId = extractVodId(webView.url) ?: webView.url
+                    if (vodId != null) {
+                        val prefs = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+                        val savedPosition = prefs.getLong(vodId, 0L)
+                        val savedTimestamp = prefs.getString("${vodId}_time", "")
+                        val savedEpisode = prefs.getString("${vodId}_episode", "")
 
-                    if (savedPosition > 0L) {
-                        val titleText = if (!savedEpisode.isNullOrEmpty()) "Продолжить: $savedEpisode?" else "Продолжить просмотр?"
-                        val messageText = if (!savedTimestamp.isNullOrEmpty()) {
-                            "Момент: ${formatTime(savedPosition)}\n(Смотрели: $savedTimestamp)"
-                        } else {
-                            "Вы остановились на моменте ${formatTime(savedPosition)}"
-                        }
-
-                        androidx.appcompat.app.AlertDialog.Builder(this)
-                            .setTitle(titleText)
-                            .setMessage(messageText)
-                            .setPositiveButton("Продолжить") { _, _ -> startBuiltInPlayer(m3u8Url, savedPosition) }
-                            .setNegativeButton("Сначала") { _, _ ->
-                                prefs.edit().remove(vodId).apply() 
-                                prefs.edit().remove("${vodId}_time").apply()
-                                startBuiltInPlayer(m3u8Url, 0L)
+                        if (savedPosition > 0L) {
+                            val titleText = if (!savedEpisode.isNullOrEmpty()) "Продолжить: $savedEpisode?" else "Продолжить просмотр?"
+                            val messageText = if (!savedTimestamp.isNullOrEmpty()) {
+                                "Момент: ${formatTime(savedPosition)}\n(Смотрели: $savedTimestamp)"
+                            } else {
+                                "Вы остановились на моменте ${formatTime(savedPosition)}"
                             }
-                            .setCancelable(true)
-                            .show()
+
+                            androidx.appcompat.app.AlertDialog.Builder(this)
+                                .setTitle(titleText)
+                                .setMessage(messageText)
+                                .setPositiveButton("Продолжить") { _, _ -> startBuiltInPlayer(m3u8Url, savedPosition) }
+                                .setNegativeButton("Сначала") { _, _ ->
+                                    prefs.edit().remove(vodId).apply() 
+                                    prefs.edit().remove("${vodId}_time").apply()
+                                    startBuiltInPlayer(m3u8Url, 0L)
+                                }
+                                .setCancelable(true)
+                                .show()
+                        } else {
+                            startBuiltInPlayer(m3u8Url, 0L)
+                        }
                     } else {
                         startBuiltInPlayer(m3u8Url, 0L)
                     }
-                } else {
-                    startBuiltInPlayer(m3u8Url, 0L)
                 }
             }
         }
@@ -277,6 +282,10 @@ class MainActivity : AppCompatActivity() {
             .setArtist("Кинотеатр")
             // Указываем тип контента (Фильм/Сериал), чтобы пробить защиту экрана блокировки
             .setMediaType(androidx.media3.common.MediaMetadata.MEDIA_TYPE_MOVIE)
+            .apply {
+                // Постер из WebView → показываем в стандартном уведомлении Media3
+                pendingPosterUrl?.let { setArtworkUri(Uri.parse(it)) }
+            }
             .build()
 
         val mediaItem = MediaItem.Builder()
@@ -435,6 +444,48 @@ class MainActivity : AppCompatActivity() {
             stopBuiltInPlayer()
         }
         try { unregisterReceiver(pipReceiver) } catch (e: Exception) { e.printStackTrace() }
+    }
+
+    /**
+     * Достаёт URL постера со страницы WebView.
+     * Сначала ищет #media .poster img, затем og:image.
+     * Результат передаёт в колбэк (на главном потоке).
+     */
+    private fun extractPosterUrl(onResult: (String?) -> Unit) {
+        webView.evaluateJavascript(
+            """
+            (function() {
+                var url = null;
+
+                // 1. Постер из блока #media .poster
+                var mediaBlock = document.getElementById('media');
+                if (mediaBlock) {
+                    var poster = mediaBlock.querySelector('.poster');
+                    var img = poster ? poster.querySelector('img') : null;
+                    if (img) {
+                        url = img.getAttribute('src') || img.getAttribute('data-src') || null;
+                    }
+                }
+
+                // 2. Fallback: og:image
+                if (!url) {
+                    var meta = document.querySelector('meta[property="og:image"]');
+                    if (meta) url = meta.getAttribute('content');
+                }
+
+                if (url) {
+                    try { url = new URL(url, location.href).href; } catch (e) {}
+                }
+                return url;
+            })();
+            """.trimIndent()
+        ) { result: String? ->
+            val cleanResult = result?.trim()?.removePrefix("\"")?.removeSuffix("\"")?.replace("\\/", "/")
+            val isNull = cleanResult.isNullOrEmpty() || cleanResult == "null"
+            runOnUiThread {
+                onResult(if (isNull) null else cleanResult)
+            }
+        }
     }
 
     private fun extractVodId(url: String?): String? {
