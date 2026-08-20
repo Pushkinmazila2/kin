@@ -125,27 +125,16 @@ class MainActivity : AppCompatActivity() {
                             fabPlayVideo.visibility = View.VISIBLE
                             Toast.makeText(this@MainActivity, "Видео-поток обнаружен!", Toast.LENGTH_SHORT).show()
                         }
-                        
-                        webView.evaluateJavascript(
-                            """
-                            (function() {
-                                var elements = document.getElementsByTagName('*');
-                                for (var i = 0; i < elements.length; i++) {
-                                    var color = window.getComputedStyle(elements[i]).color;
-                                    if (color.replace(/\s/g, '') === 'rgb(255,221,31)') {
-                                        return elements[i].innerText || elements[i].textContent;
-                                    }
+
+                        extractCurrentSeriesInfo { season, episode ->
+                            val vodId = extractVodId(webView.url) ?: webView.url
+                            if (vodId != null) {
+                                val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+                                if (!episode.isNullOrEmpty()) {
+                                    sharedPreferences.edit().putString("${vodId}_episode", episode).apply()
                                 }
-                                return null;
-                            })();
-                            """.trimIndent()
-                        ) { result: String? ->
-                            val cleanResult = result?.replace("\"", "") ?: ""
-                            if (cleanResult.isNotEmpty() && cleanResult != "null") {
-                                val vodId = extractVodId(webView.url) ?: webView.url
-                                if (vodId != null) {
-                                    val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
-                                    sharedPreferences.edit().putString("${vodId}_episode", cleanResult).apply()
+                                if (!season.isNullOrEmpty()) {
+                                    sharedPreferences.edit().putString("${vodId}_season", season).apply()
                                 }
                             }
                         }
@@ -193,9 +182,16 @@ class MainActivity : AppCompatActivity() {
                         val savedPosition = prefs.getLong(vodId, 0L)
                         val savedTimestamp = prefs.getString("${vodId}_time", "")
                         val savedEpisode = prefs.getString("${vodId}_episode", "")
+                        val savedSeason = prefs.getString("${vodId}_season", "")
 
                         if (savedPosition > 0L) {
-                            val titleText = if (!savedEpisode.isNullOrEmpty()) "Продолжить: $savedEpisode?" else "Продолжить просмотр?"
+                            val titleText = when {
+                                !savedEpisode.isNullOrEmpty() && !savedSeason.isNullOrEmpty() ->
+                                    "Продолжить: $savedSeason сезон · $savedEpisode?"
+                                !savedEpisode.isNullOrEmpty() -> "Продолжить: $savedEpisode?"
+                                !savedSeason.isNullOrEmpty() -> "Продолжить: $savedSeason сезон?"
+                                else -> "Продолжить просмотр?"
+                            }
                             val messageText = if (!savedTimestamp.isNullOrEmpty()) {
                                 "Момент: ${formatTime(savedPosition)}\n(Смотрели: $savedTimestamp)"
                             } else {
@@ -207,8 +203,12 @@ class MainActivity : AppCompatActivity() {
                                 .setMessage(messageText)
                                 .setPositiveButton("Продолжить") { _, _ -> startBuiltInPlayer(m3u8Url, savedPosition) }
                                 .setNegativeButton("Сначала") { _, _ ->
-                                    prefs.edit().remove(vodId).apply() 
-                                    prefs.edit().remove("${vodId}_time").apply()
+                                    prefs.edit().apply {
+                                        remove(vodId)
+                                        remove("${vodId}_time")
+                                        remove("${vodId}_episode")
+                                        remove("${vodId}_season")
+                                    }.apply()
                                     startBuiltInPlayer(m3u8Url, 0L)
                                 }
                                 .setCancelable(true)
@@ -269,12 +269,22 @@ class MainActivity : AppCompatActivity() {
         val vodId = extractVodId(webView.url) ?: webView.url
         val prefs = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
         val episodeTitle = prefs.getString("${vodId}_episode", "Просмотр видео") ?: "Просмотр видео"
+        val savedSeason = prefs.getString("${vodId}_season", "")
 
         // Подбираем название сериала: в приоритете сохранённое название серии,
         // иначе заголовок страницы WebView
-        val seriesTitle = extractSeriesTitle(vodId)
+        val baseTitle = extractSeriesTitle(vodId)
             ?: webView.title?.takeIf { it.isNotBlank() && it != DEFAULT_URL }
             ?: episodeTitle
+
+        // Добавляем сезон/серию в заголовок уведомления, если известны
+        val seriesTitle = when {
+            baseTitle == episodeTitle && !savedSeason.isNullOrEmpty() && !episodeTitle.isNullOrEmpty() ->
+                "$baseTitle — $savedSeason сезон $episodeTitle"
+            !savedSeason.isNullOrEmpty() && !episodeTitle.isNullOrEmpty() && !episodeTitle.contains("сезон") ->
+                "$baseTitle — $savedSeason сезон $episodeTitle"
+            else -> baseTitle
+        }
 
         val mediaMetadata = androidx.media3.common.MediaMetadata.Builder()
             .setTitle(seriesTitle)
@@ -387,8 +397,12 @@ class MainActivity : AppCompatActivity() {
                     val timestamp = SimpleDateFormat("dd.MM в HH:mm", Locale.getDefault()).format(Date())
                     sharedPreferences.edit().putString("${vodId}_time", timestamp).apply()
                 } else {
-                    sharedPreferences.edit().remove(vodId).apply()
-                    sharedPreferences.edit().remove("${vodId}_time").apply()
+                    sharedPreferences.edit().apply {
+                        remove(vodId)
+                        remove("${vodId}_time")
+                        remove("${vodId}_episode")
+                        remove("${vodId}_season")
+                    }.apply()
                 }
             }
             player.stop()
@@ -488,9 +502,80 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Номер сезона/серии из плеера сайта (pjsdiv строки).
+     * Активная серия подсвечена жёлтым цветом rgb(255,221,31).
+     * Работает только на страницах сериалов (/serial/, /tv/, /animation/).
+     */
+    private fun extractCurrentSeriesInfo(onResult: (String?, String?) -> Unit) {
+        val currentUrl = webView.url
+        if (currentUrl == null ||
+            !(currentUrl.contains("/serial/") || currentUrl.contains("/tv/") || currentUrl.contains("/animation/"))
+        ) {
+            runOnUiThread { onResult(null, null) }
+            return
+        }
+
+        webView.evaluateJavascript(
+            """
+            (function() {
+                var season = null;
+                var episode = null;
+
+                // Строки плеера: сезон ('N сезон') и серии ('N серия ...')
+                var rows = document.querySelectorAll('pjsdiv[fid]');
+                for (var i = 0; i < rows.length; i++) {
+                    var text = (rows[i].textContent || '').trim();
+                    if (text.length > 40) continue;
+
+                    var isSeason = /^\d+\s*сезон\s*$/i.test(text);
+                    var isEpisode = /^\d+\s*серия/i.test(text);
+                    if (!isSeason && !isEpisode) continue;
+
+                    // Ищем текстовый элемент строки (float:left, непустой) и проверяем его цвет
+                    var children = rows[i].children;
+                    for (var j = 0; j < children.length; j++) {
+                        var child = children[j];
+                        var childText = (child.textContent || '').trim();
+                        if (!childText || child.querySelector('svg')) continue;
+
+                        var color = window.getComputedStyle(child).color.replace(/\s/g, '');
+                        var isActive = (color === 'rgb(255,221,31)');
+                        if (isActive) {
+                            if (isSeason) {
+                                season = childText.replace(/[^\d]/g, '');
+                            } else if (isEpisode) {
+                                episode = childText;
+                            }
+                        }
+                    }
+                }
+
+                return JSON.stringify({ season: season, episode: episode });
+            })();
+            """.trimIndent()
+        ) { result: String? ->
+            var parsedSeason: String? = null
+            var parsedEpisode: String? = null
+            try {
+                val json = result?.trim()?.removePrefix("\"")?.removeSuffix("\"")?.replace("\\\"", "\"")
+                if (!json.isNullOrEmpty() && json != "null") {
+                    val obj = org.json.JSONObject(json)
+                    parsedSeason = if (obj.isNull("season") || obj.getString("season") == "null") null else obj.getString("season")
+                    parsedEpisode = if (obj.isNull("episode") || obj.getString("episode") == "null") null else obj.getString("episode")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            val season = parsedSeason
+            val episode = parsedEpisode
+            runOnUiThread { onResult(season, episode) }
+        }
+    }
+
     private fun extractVodId(url: String?): String? {
         if (url == null) return null
-        val regex = Regex("/vod/(\\d+)")
+        val regex = Regex("/(?:serial|tv|animation|vod)/(\\d+)")
         val matchResult = regex.find(url)
         return matchResult?.groups?.get(1)?.value
     }
