@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Rational
 import android.view.View
+import android.view.WindowManager
 import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -29,8 +30,12 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaSession
 import androidx.media3.ui.PlayerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -101,6 +106,7 @@ class MainActivity : AppCompatActivity() {
             databaseEnabled = true
             mediaPlaybackRequiresUserGesture = false
         }
+        webView.addJavascriptInterface(WebAppInterface(), "AndroidBridge")
 
         CookieManager.getInstance().apply {
             setAcceptCookie(true)
@@ -116,6 +122,30 @@ class MainActivity : AppCompatActivity() {
                         if (fabPlayVideo.visibility != View.VISIBLE && playerView.visibility != View.VISIBLE) {
                             fabPlayVideo.visibility = View.VISIBLE
                             Toast.makeText(this@MainActivity, "Видео-поток обнаружен!", Toast.LENGTH_SHORT).show()
+                        }
+                        
+                        webView.evaluateJavascript(
+                            """
+                            (function() {
+                                var elements = document.getElementsByTagName('*');
+                                for (var i = 0; i < elements.length; i++) {
+                                    var color = window.getComputedStyle(elements[i]).color;
+                                    if (color.replace(/\s/g, '') === 'rgb(255,221,31)') {
+                                        return elements[i].innerText || elements[i].textContent;
+                                    }
+                                }
+                                return null;
+                            })();
+                            """.trimIndent()
+                        ) { result: String? ->
+                            val cleanResult = result?.replace("\"", "") ?: ""
+                            if (cleanResult.isNotEmpty() && cleanResult != "null") {
+                                val vodId = extractVodId(webView.url) ?: webView.url
+                                if (vodId != null) {
+                                    val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+                                    sharedPreferences.edit().putString("${vodId}_episode", cleanResult).apply()
+                                }
+                            }
                         }
                     }
                 }
@@ -153,43 +183,49 @@ class MainActivity : AppCompatActivity() {
 
         fabPlayVideo.setOnClickListener {
             detectedM3u8Url?.let { m3u8Url ->
-                // Получаем текущий URL страницы сайта
-                val currentWebUrl = webView.url
-
-                if (currentWebUrl != null) {
-                    val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
-                    val savedPosition = sharedPreferences.getLong(currentWebUrl, 0L)
+                val vodId = extractVodId(webView.url) ?: webView.url
+                if (vodId != null) {
+                    val prefs = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+                    val savedPosition = prefs.getLong(vodId, 0L)
+                    val savedTimestamp = prefs.getString("${vodId}_time", "")
+                    val savedEpisode = prefs.getString("${vodId}_episode", "")
 
                     if (savedPosition > 0L) {
-                        // Если нашли сохраненный момент для этой страницы, предлагаем выбор
+                        val titleText = if (!savedEpisode.isNullOrEmpty()) "Продолжить: $savedEpisode?" else "Продолжить просмотр?"
+                        val messageText = if (!savedTimestamp.isNullOrEmpty()) {
+                            "Момент: ${formatTime(savedPosition)}\n(Смотрели: $savedTimestamp)"
+                        } else {
+                            "Вы остановились на моменте ${formatTime(savedPosition)}"
+                        }
+
                         androidx.appcompat.app.AlertDialog.Builder(this)
-                            .setTitle("Продолжить просмотр?")
-                            .setMessage("Вы остановились на моменте ${formatTime(savedPosition)}")
-                            .setPositiveButton("Продолжить") { _, _ ->
-                                startBuiltInPlayer(m3u8Url, savedPosition)
-                            }
+                            .setTitle(titleText)
+                            .setMessage(messageText)
+                            .setPositiveButton("Продолжить") { _, _ -> startBuiltInPlayer(m3u8Url, savedPosition) }
                             .setNegativeButton("Сначала") { _, _ ->
-                                // Стираем кэш для этой страницы, если выбрали сначала
-                                sharedPreferences.edit().remove(currentWebUrl).apply() 
+                                prefs.edit().remove(vodId).apply() 
+                                prefs.edit().remove("${vodId}_time").apply()
                                 startBuiltInPlayer(m3u8Url, 0L)
                             }
                             .setCancelable(true)
                             .show()
                     } else {
-                        // Если для этой страницы истории нет, запускаем с нуля
                         startBuiltInPlayer(m3u8Url, 0L)
                     }
                 } else {
-                    // На всякий случай, если URL страницы вдруг пустой
                     startBuiltInPlayer(m3u8Url, 0L)
                 }
             }
         }
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerReceiver(pipReceiver, IntentFilter(ACTION_MEDIA_CONTROL), Context.RECEIVER_EXPORTED)
+        }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                androidx.core.app.ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+            }
         }
     }
 
@@ -200,21 +236,64 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         hideSystemUi()
 
-        exoPlayer = ExoPlayer.Builder(this).build().also { player ->
-            playerView.player = player
-            playerView.setFullscreenButtonClickListener { stopBuiltInPlayer() }
+        // Не даём экрану засыпать и уменьшать яркость во время воспроизведения
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-            val mediaItem = MediaItem.fromUri(url)
-            player.setMediaItem(mediaItem)
-            
-            if (startPosition > 0L) {
-                player.seekTo(startPosition)
-            }
-            
-            player.prepare()
-            player.play()
+        // Паузим WebView, чтобы не было двойного воспроизведения и лишней нагрузки на память
+        webView.onPause()
+
+        // 1. Создаём плеер и передаём его сервису ДО запуска,
+        //    чтобы сервис использовал тот же плеер (устраняет гонку)
+        val player = PlaybackService.playerInstance ?: ExoPlayer.Builder(this).build().also {
+            PlaybackService.playerInstance = it
         }
+        
+        exoPlayer = player
+        playerView.player = player
+        playerView.setFullscreenButtonClickListener { stopBuiltInPlayer() }
+
+        // 2. Запускаем сервис воспроизведения (он использует уже созданный плеер)
+        val serviceIntent = Intent(this, PlaybackService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
+
+        // 3. Подтягиваем метаданные серии для пульта в шторке
+        val vodId = extractVodId(webView.url) ?: webView.url
+        val prefs = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+        val episodeTitle = prefs.getString("${vodId}_episode", "Просмотр видео") ?: "Просмотр видео"
+
+        // Подбираем название сериала: в приоритете сохранённое название серии,
+        // иначе заголовок страницы WebView
+        val seriesTitle = extractSeriesTitle(vodId)
+            ?: webView.title?.takeIf { it.isNotBlank() && it != DEFAULT_URL }
+            ?: episodeTitle
+
+        val mediaMetadata = androidx.media3.common.MediaMetadata.Builder()
+            .setTitle(seriesTitle)
+            .setDisplayTitle(seriesTitle)
+            .setArtist("Кинотеатр")
+            // Указываем тип контента (Фильм/Сериал), чтобы пробить защиту экрана блокировки
+            .setMediaType(androidx.media3.common.MediaMetadata.MEDIA_TYPE_MOVIE)
+            .build()
+
+        val mediaItem = MediaItem.Builder()
+            .setUri(url)
+            .setMediaMetadata(mediaMetadata)
+            .build()
+
+        player.setMediaItem(mediaItem)
+        
+        if (startPosition > 0L) {
+            player.seekTo(startPosition)
+        }
+        
+        player.prepare()
+        player.play()
     }
+
 
 
     private fun enterPipMode() {
@@ -250,8 +329,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         val btnOpenMenu: ImageButton = findViewById(R.id.btnOpenMenu)
@@ -265,14 +342,14 @@ class MainActivity : AppCompatActivity() {
             playerView.useController = true
             webView.visibility = View.VISIBLE
             btnOpenMenu.visibility = View.VISIBLE
-            if (exoPlayer == null) {
+
+            if (exoPlayer == null || !lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED)) {
                 stopBuiltInPlayer()
             } else {
                 fabPlayVideo.visibility = View.GONE 
             }
         }
     }
-
 
     private fun hideSystemUi() {
         @Suppress("DEPRECATION")
@@ -287,25 +364,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun stopBuiltInPlayer() {
+        // 1. Сначала останавливаем плеер, пока он ещё жив
         exoPlayer?.let { player ->
             val currentWebUrl = webView.url 
             if (currentWebUrl != null) {
+                val vodId = extractVodId(currentWebUrl) ?: currentWebUrl
                 val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
                 val currentPosition = player.currentPosition
                 val duration = player.duration
 
                 if (currentPosition > 5000 && (duration == -1L || currentPosition < duration - 5000)) {
-                    sharedPreferences.edit().putLong(currentWebUrl, currentPosition).apply()
+                    sharedPreferences.edit().putLong(vodId, currentPosition).apply()
+                    val timestamp = SimpleDateFormat("dd.MM в HH:mm", Locale.getDefault()).format(Date())
+                    sharedPreferences.edit().putString("${vodId}_time", timestamp).apply()
                 } else {
-                    sharedPreferences.edit().remove(currentWebUrl).apply()
+                    sharedPreferences.edit().remove(vodId).apply()
+                    sharedPreferences.edit().remove("${vodId}_time").apply()
                 }
             }
             player.stop()
-            player.release()
         }
+        
         exoPlayer = null
         playerView.player = null
         playerView.visibility = View.GONE
+
+        // Разрешаем экрану снова засыпать
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        // 2. Теперь останавливаем сервис (он освободит плеер в onDestroy)
+        val serviceIntent = Intent(this, PlaybackService::class.java)
+        stopService(serviceIntent)
+
+        // 3. Возобновляем WebView
+        webView.onResume()
         
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         showSystemUi()
@@ -315,6 +407,7 @@ class MainActivity : AppCompatActivity() {
             fabPlayVideo.visibility = View.VISIBLE
         }
     }
+
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
@@ -332,14 +425,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !isInPictureInPictureMode) {
-            stopBuiltInPlayer()
-        }
+        // Не останавливаем плеер при уходе в фон/PiP — это вызывало вылет.
+        // Плеер останавливается только при реальном завершении Activity (onDestroy).
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        if (exoPlayer != null) {
+            stopBuiltInPlayer()
+        }
         try { unregisterReceiver(pipReceiver) } catch (e: Exception) { e.printStackTrace() }
+    }
+
+    private fun extractVodId(url: String?): String? {
+        if (url == null) return null
+        val regex = Regex("/vod/(\\d+)")
+        val matchResult = regex.find(url)
+        return matchResult?.groups?.get(1)?.value
+    }
+
+    private fun extractSeriesTitle(vodId: String?): String? {
+        if (vodId == null) return null
+        val prefs = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+        return prefs.getString("${vodId}_series", null)
     }
 
     private fun formatTime(ms: Long): String {
@@ -348,9 +456,22 @@ class MainActivity : AppCompatActivity() {
         val minutes = (totalSeconds / 60) % 60
         val hours = totalSeconds / 3600
         return if (hours > 0) {
-            String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
         } else {
-            String.format("%02d:%02d", minutes, seconds)
+            String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+        }
+    }
+
+    inner class WebAppInterface {
+        @android.webkit.JavascriptInterface
+        fun onEpisodeDetected(episodeInfo: String) {
+            runOnUiThread {
+                val vodId = extractVodId(webView.url) ?: webView.url
+                if (vodId != null && episodeInfo.isNotEmpty() && episodeInfo != "null") {
+                    val sharedPreferences = getSharedPreferences("PlayerCache", Context.MODE_PRIVATE)
+                    sharedPreferences.edit().putString("${vodId}_episode", episodeInfo.trim()).apply()
+                }
+            }
         }
     }
 }

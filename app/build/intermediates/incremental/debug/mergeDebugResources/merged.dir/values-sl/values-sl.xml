@@ -54,6 +54,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Deljenje z:"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Deljenje z drugimi prek aplikacije <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Strnitev"</string>
+    <string name="authentication_required">Zahtevano je preverjanje pristnosti</string>
     <string name="bottomsheet_action_collapse">Strnitev razdelka na dnu zaslona</string>
     <string name="bottomsheet_action_expand">Razširitev razdelka na dnu zaslona</string>
     <string name="bottomsheet_action_expand_halfway">Razširjanje na pol višine</string>
@@ -62,6 +63,7 @@
     <string name="character_counter_content_description">Število vnesenih znakov je %1$d od %2$d</string>
     <string name="character_counter_overflowed_content_description">Omejitev števila znakov je presegla %1$d od %2$d</string>
     <string name="clear_text_end_icon_content_description">Izbris besedila</string>
+    <string name="default_notification_channel_name">Zdaj se predvaja</string>
     <string name="error_icon_content_description">Napaka</string>
     <string name="exo_controls_cc_disabled_description">Omogočanje podnapisov</string>
     <string name="exo_controls_cc_enabled_description">Onemogočanje podnapisov</string>
@@ -131,6 +133,12 @@
     <string name="material_timepicker_pm">pop.</string>
     <string name="material_timepicker_select_time">Izberite uro</string>
     <string name="material_timepicker_text_input_mode_description">Preklopite na način za vnašanje besedila, da vnesete čas.</string>
+    <string name="media3_controls_pause_description">Začasno zaustavi</string>
+    <string name="media3_controls_play_description">Predvajaj</string>
+    <string name="media3_controls_seek_back_description">Premakni nazaj</string>
+    <string name="media3_controls_seek_forward_description">Premakni naprej</string>
+    <string name="media3_controls_seek_to_next_description">Premakni na naslednji element</string>
+    <string name="media3_controls_seek_to_previous_description">Premakni na prejšnji element</string>
     <string name="mtrl_badge_numberless_content_description">Novo obvestilo</string>
     <string name="mtrl_chip_close_icon_content_description">Odstranite %1$s</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Več kot toliko novih obvestil: %1$d</string>

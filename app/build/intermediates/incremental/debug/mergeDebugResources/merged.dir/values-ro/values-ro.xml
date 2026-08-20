@@ -51,6 +51,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Trimiteți la"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Trimiteți folosind <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Restrângeți"</string>
+    <string name="authentication_required">Autentificarea este obligatorie</string>
     <string name="bottomsheet_action_collapse">Restrângeți foaia din partea de jos</string>
     <string name="bottomsheet_action_expand">Extindeți foaia din partea de jos</string>
     <string name="bottomsheet_action_expand_halfway">Extinde pe ecran complet</string>
@@ -59,6 +60,7 @@
     <string name="character_counter_content_description">Caractere introduse: %1$d din %2$d</string>
     <string name="character_counter_overflowed_content_description">Limita de caractere a depășit %1$d din %2$d</string>
     <string name="clear_text_end_icon_content_description">Ștergeți textul</string>
+    <string name="default_notification_channel_name">Se redă acum</string>
     <string name="error_icon_content_description">Eroare</string>
     <string name="exo_controls_cc_disabled_description">Activează subtitrările</string>
     <string name="exo_controls_cc_enabled_description">Dezactivează subtitrările</string>
@@ -128,6 +130,12 @@
     <string name="material_timepicker_pm">p.m.</string>
     <string name="material_timepicker_select_time">Selectați ora</string>
     <string name="material_timepicker_text_input_mode_description">Pentru a introduce ora, comutați la modul de introducere a textului.</string>
+    <string name="media3_controls_pause_description">Întrerupe</string>
+    <string name="media3_controls_play_description">Redă</string>
+    <string name="media3_controls_seek_back_description">Derulează înapoi</string>
+    <string name="media3_controls_seek_forward_description">Derulează înainte</string>
+    <string name="media3_controls_seek_to_next_description">Treci la elementul următor</string>
+    <string name="media3_controls_seek_to_previous_description">Treci la elementul anterior</string>
     <string name="mtrl_badge_numberless_content_description">Notificare nouă</string>
     <string name="mtrl_chip_close_icon_content_description">Eliminați %1$s</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Peste %1$d notificări noi</string>

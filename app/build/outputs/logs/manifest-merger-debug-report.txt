@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-29:12
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:2:1-42:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\f9c91dd97ffd1f286fc4ca534f3425a1\workspace\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\f153c71fe8ead66afbe52df45ac0545b\workspace\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75675d98acc8bc123512ece5ee7dcda4\workspace\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
@@ -12,14 +12,15 @@ MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Admin\.gradle-vscode
 MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\30f09bf3ae714d9966586c9c77923dfb\workspace\transformed\fragment-1.3.6\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\f79dd73082053dece42c2cad1f1a36e5\workspace\transformed\jetified-activity-1.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.media3:media3-ui:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\fa984a562a9c19a883c6aa37833615c1\workspace\transformed\jetified-media3-ui-1.3.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media3:media3-exoplayer-hls:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\18f768168966183482745c7a1f8301af\workspace\transformed\jetified-media3-exoplayer-hls-1.3.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.media3:media3-datasource:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\e07d8e1767fb6e55fdd58e4b8b98cb3e\workspace\transformed\jetified-media3-datasource-1.3.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.media3:media3-extractor:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\6bc2986a845ccd3482d4df888d333137\workspace\transformed\jetified-media3-extractor-1.3.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.media3:media3-container:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\50acefcbe3c3d97a0a58fb855c3fa6c9\workspace\transformed\jetified-media3-container-1.3.1\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.media3:media3-datasource:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\e07d8e1767fb6e55fdd58e4b8b98cb3e\workspace\transformed\jetified-media3-datasource-1.3.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.media3:media3-decoder:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\03eb85c7f833ec6d485876513949cd75\workspace\transformed\jetified-media3-decoder-1.3.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.media3:media3-database:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\70bb2f1cb857cd7b4d6edd35a8bce0af\workspace\transformed\jetified-media3-database-1.3.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.media3:media3-common:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75d6517d23f6cf696f008433e8357f40\workspace\transformed\jetified-media3-common-1.3.1\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.media3:media3-exoplayer-hls:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\18f768168966183482745c7a1f8301af\workspace\transformed\jetified-media3-exoplayer-hls-1.3.1\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.media3:media3-session:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\ce0c771fa356c3aabb0a3f4052843028\workspace\transformed\jetified-media3-session-1.3.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5f20db825b6dce4fdf6607313f859fed\workspace\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\ab1472c22e4c5dd8a092379f7411acc3\workspace\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\e0403220b5ba6bcd8e95d06176019f37\workspace\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
@@ -73,15 +74,27 @@ ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:
 		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:5:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:6:5-79
-MERGED from [androidx.media3:media3-common:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75d6517d23f6cf696f008433e8357f40\workspace\transformed\jetified-media3-common-1.3.1\AndroidManifest.xml:22:5-79
-MERGED from [androidx.media3:media3-common:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75d6517d23f6cf696f008433e8357f40\workspace\transformed\jetified-media3-common-1.3.1\AndroidManifest.xml:22:5-79
 MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:22:5-79
 MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:22:5-79
+MERGED from [androidx.media3:media3-common:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75d6517d23f6cf696f008433e8357f40\workspace\transformed\jetified-media3-common-1.3.1\AndroidManifest.xml:22:5-79
+MERGED from [androidx.media3:media3-common:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75d6517d23f6cf696f008433e8357f40\workspace\transformed\jetified-media3-common-1.3.1\AndroidManifest.xml:22:5-79
 	android:name
 		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:6:22-76
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:7:5-77
+	android:name
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:7:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:8:5-92
+	android:name
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:8:22-89
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:9:5-77
+	android:name
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:9:22-74
 application
-ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:8:5-27:19
-INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:8:5-27:19
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:11:5-40:19
+INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:11:5-40:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\f9c91dd97ffd1f286fc4ca534f3425a1\workspace\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\f9c91dd97ffd1f286fc4ca534f3425a1\workspace\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\f153c71fe8ead66afbe52df45ac0545b\workspace\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -103,35 +116,53 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Admin\.gradle-vsco
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\aa191b9b2c3d46e0dcb6c81cb785b8c8\workspace\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:11:9-35
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:14:9-35
 	android:label
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:10:9-31
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:13:9-31
+	android:roundIcon
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:18:9-54
+	android:icon
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:17:9-43
 	android:allowBackup
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:9:9-35
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:12:9-35
 	android:theme
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:12:9-65
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:15:9-65
 	android:usesCleartextTraffic
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:13:9-44
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:16:9-44
 activity#com.example.webviewapp.MainActivity
-ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:16:9-25:20
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:20:9-29:20
 	android:exported
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:18:13-36
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:22:13-36
 	android:supportsPictureInPicture
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:19:13-52
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:23:13-52
 	android:configChanges
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:20:13-141
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:24:13-141
 	android:name
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:17:13-41
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:21:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:21:13-24:29
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:25:13-28:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:22:17-69
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:26:17-69
 	android:name
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:22:25-66
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:26:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:23:17-77
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:27:17-77
 	android:name
-		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:23:27-74
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:27:27-74
+service#com.example.webviewapp.PlaybackService
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:31:9-38:19
+	android:exported
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:33:13-36
+	android:foregroundServiceType
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:34:13-58
+	android:name
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:32:13-44
+intent-filter#action:name:androidx.media3.session.MediaSessionService
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:35:13-37:29
+action#androidx.media3.session.MediaSessionService
+ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:36:17-86
+	android:name
+		ADDED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml:36:25-83
 uses-sdk
 INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Admin\Documents\GitHub\kin\app\src\main\AndroidManifest.xml
@@ -152,22 +183,24 @@ MERGED from [androidx.activity:activity:1.8.0] C:\Users\Admin\.gradle-vscode-and
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\f79dd73082053dece42c2cad1f1a36e5\workspace\transformed\jetified-activity-1.8.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-ui:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\fa984a562a9c19a883c6aa37833615c1\workspace\transformed\jetified-media3-ui-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-ui:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\fa984a562a9c19a883c6aa37833615c1\workspace\transformed\jetified-media3-ui-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-exoplayer-hls:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\18f768168966183482745c7a1f8301af\workspace\transformed\jetified-media3-exoplayer-hls-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-exoplayer-hls:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\18f768168966183482745c7a1f8301af\workspace\transformed\jetified-media3-exoplayer-hls-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-datasource:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\e07d8e1767fb6e55fdd58e4b8b98cb3e\workspace\transformed\jetified-media3-datasource-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-datasource:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\e07d8e1767fb6e55fdd58e4b8b98cb3e\workspace\transformed\jetified-media3-datasource-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-extractor:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\6bc2986a845ccd3482d4df888d333137\workspace\transformed\jetified-media3-extractor-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-extractor:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\6bc2986a845ccd3482d4df888d333137\workspace\transformed\jetified-media3-extractor-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-container:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\50acefcbe3c3d97a0a58fb855c3fa6c9\workspace\transformed\jetified-media3-container-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-container:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\50acefcbe3c3d97a0a58fb855c3fa6c9\workspace\transformed\jetified-media3-container-1.3.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media3:media3-datasource:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\e07d8e1767fb6e55fdd58e4b8b98cb3e\workspace\transformed\jetified-media3-datasource-1.3.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media3:media3-datasource:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\e07d8e1767fb6e55fdd58e4b8b98cb3e\workspace\transformed\jetified-media3-datasource-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-decoder:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\03eb85c7f833ec6d485876513949cd75\workspace\transformed\jetified-media3-decoder-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-decoder:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\03eb85c7f833ec6d485876513949cd75\workspace\transformed\jetified-media3-decoder-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-database:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\70bb2f1cb857cd7b4d6edd35a8bce0af\workspace\transformed\jetified-media3-database-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-database:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\70bb2f1cb857cd7b4d6edd35a8bce0af\workspace\transformed\jetified-media3-database-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-common:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75d6517d23f6cf696f008433e8357f40\workspace\transformed\jetified-media3-common-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media3:media3-common:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\75d6517d23f6cf696f008433e8357f40\workspace\transformed\jetified-media3-common-1.3.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media3:media3-exoplayer-hls:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\18f768168966183482745c7a1f8301af\workspace\transformed\jetified-media3-exoplayer-hls-1.3.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media3:media3-exoplayer-hls:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\18f768168966183482745c7a1f8301af\workspace\transformed\jetified-media3-exoplayer-hls-1.3.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media3:media3-exoplayer:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5a9b11b16b6a8f9fde49c7dd9f43e71b\workspace\transformed\jetified-media3-exoplayer-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-session:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\ce0c771fa356c3aabb0a3f4052843028\workspace\transformed\jetified-media3-session-1.3.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media3:media3-session:1.3.1] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\ce0c771fa356c3aabb0a3f4052843028\workspace\transformed\jetified-media3-session-1.3.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5f20db825b6dce4fdf6607313f859fed\workspace\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\5f20db825b6dce4fdf6607313f859fed\workspace\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Admin\.gradle-vscode-android-ide-extension\caches\9.2.0\transforms\ab1472c22e4c5dd8a092379f7411acc3\workspace\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44

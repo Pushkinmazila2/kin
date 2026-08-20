@@ -1,6 +1,22 @@
 [
     {
-        "merged": "com.example.webviewapp-debug-35:/layout_activity_main.xml.flat",
-        "source": "com.example.webviewapp-main-37:/layout/activity_main.xml"
+        "merged": "com.example.webviewapp-debug-36:/layout_activity_main.xml.flat",
+        "source": "com.example.webviewapp-main-38:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.webviewapp-debug-36:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.webviewapp-main-38:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.webviewapp-debug-36:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.webviewapp-main-38:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.webviewapp-debug-36:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.webviewapp-main-38:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.webviewapp-debug-36:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.webviewapp-main-38:/mipmap-anydpi-v26/ic_launcher_round.xml"
     }
 ]

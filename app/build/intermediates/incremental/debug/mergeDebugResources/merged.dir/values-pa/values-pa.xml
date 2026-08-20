@@ -48,6 +48,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"ਇਸ ਨਾਲ ਸਾਂਝਾ ਕਰੋ"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g> ਨਾਲ ਸਾਂਝਾ ਕਰੋ"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"ਸਮੇਟੋ"</string>
+    <string name="authentication_required">ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ</string>
     <string name="bottomsheet_action_collapse">ਹੇਠਲੀ ਸ਼ੀਟ ਨੂੰ ਸਮੇਟੋ</string>
     <string name="bottomsheet_action_expand">ਹੇਠਲੀ ਸ਼ੀਟ ਦਾ ਵਿਸਤਾਰ ਕਰੋ</string>
     <string name="bottomsheet_action_expand_halfway">ਅੱਧ ਤੱਕ ਵਿਸਤਾਰ ਕਰੋ</string>
@@ -56,6 +57,7 @@
     <string name="character_counter_content_description">%2$d ਵਿੱਚੋਂ %1$d ਅੱਖਰ-ਚਿੰਨ੍ਹ ਦਾਖਲ ਕੀਤੇ ਗਏ</string>
     <string name="character_counter_overflowed_content_description">ਅੱਖਰ-ਚਿੰਨ੍ਹ ਸੀਮਾ %2$d ਤੋਂ %1$d ਵਧੀ</string>
     <string name="clear_text_end_icon_content_description">ਲਿਖਤ ਕਲੀਅਰ ਕਰੋ</string>
+    <string name="default_notification_channel_name">ਹੁਣੇ ਚੱਲ ਰਿਹਾ ਹੈ</string>
     <string name="error_icon_content_description">ਗੜਬੜ</string>
     <string name="exo_controls_cc_disabled_description">ਉਪਸਿਰਲੇਖਾਂ ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
     <string name="exo_controls_cc_enabled_description">ਉਪਸਿਰਲੇਖਾਂ ਨੂੰ ਬੰਦ ਕਰੋ</string>
@@ -125,6 +127,12 @@
     <string name="material_timepicker_pm">PM</string>
     <string name="material_timepicker_select_time">ਸਮਾਂ ਚੁਣੋ</string>
     <string name="material_timepicker_text_input_mode_description">ਸਮਾਂ ਇਨਪੁੱਟ ਕਰਨ ਲਈ ਲਿਖਤ ਇਨਪੁੱਟ ਮੋਡ \'ਤੇ ਸਵਿੱਚ ਕਰੋ।</string>
+    <string name="media3_controls_pause_description">ਰੋਕੋ</string>
+    <string name="media3_controls_play_description">ਚਲਾਓ</string>
+    <string name="media3_controls_seek_back_description">ਪਿੱਛੇ ਲਿਜਾਓ</string>
+    <string name="media3_controls_seek_forward_description">ਅੱਗੇ ਵਧਾਓ</string>
+    <string name="media3_controls_seek_to_next_description">ਅਗਲੀ ਆਈਟਮ \'ਤੇ ਜਾਓ</string>
+    <string name="media3_controls_seek_to_previous_description">ਪਿਛਲੀ ਆਈਟਮ \'ਤੇ ਜਾਓ</string>
     <string name="mtrl_badge_numberless_content_description">ਨਵੀਂ ਸੂਚਨਾ</string>
     <string name="mtrl_chip_close_icon_content_description">%1$s ਹਟਾਓ</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">%1$d ਤੋਂ ਵੱਧ ਨਵੀਆਂ ਸੂਚਨਾਵਾਂ</string>

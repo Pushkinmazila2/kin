@@ -48,6 +48,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"ចែករំលែក​ជា​មួយ"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"ចែក​រំលែក​ជា​មួយ <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"បង្រួម"</string>
+    <string name="authentication_required">តម្រូវឱ្យ​មាន​ការផ្ទៀងផ្ទាត់</string>
     <string name="bottomsheet_action_collapse">បង្រួមសន្លឹក​ខាងក្រោម</string>
     <string name="bottomsheet_action_expand">ពង្រីកសន្លឹក​ខាងក្រោម</string>
     <string name="bottomsheet_action_expand_halfway">ពង្រីក​ពាក់កណ្ដាល</string>
@@ -56,6 +57,7 @@
     <string name="character_counter_content_description">តួ​អក្សរ​បាន​បញ្ចូល​ %1$d នៃ %2$d</string>
     <string name="character_counter_overflowed_content_description">ដែនកំណត់តួអក្សរបានលើស %1$d នៃ %2$d</string>
     <string name="clear_text_end_icon_content_description">សម្អាតអក្សរ</string>
+    <string name="default_notification_channel_name">កំពុងចាក់</string>
     <string name="error_icon_content_description">បញ្ហា</string>
     <string name="exo_controls_cc_disabled_description">បើកអក្សររត់</string>
     <string name="exo_controls_cc_enabled_description">បិទអក្សររត់</string>
@@ -125,6 +127,12 @@
     <string name="material_timepicker_pm">ល្ងាច</string>
     <string name="material_timepicker_select_time">ជ្រើស​ម៉ោង</string>
     <string name="material_timepicker_text_input_mode_description">ប្តូរ​ទៅ​មុខងារ​បញ្ចូល​អក្សរ​សម្រាប់​ការ​បញ្ចូល​ម៉ោង។</string>
+    <string name="media3_controls_pause_description">ផ្អាក</string>
+    <string name="media3_controls_play_description">ចាក់</string>
+    <string name="media3_controls_seek_back_description">ថយក្រោយ</string>
+    <string name="media3_controls_seek_forward_description">រំលង​​ទៅ​មុខ</string>
+    <string name="media3_controls_seek_to_next_description">ទៅកាន់ធាតុបន្ទាប់</string>
+    <string name="media3_controls_seek_to_previous_description">ទៅកាន់ធាតុមុន</string>
     <string name="mtrl_badge_numberless_content_description">ការជូនដំណឹងថ្មី</string>
     <string name="mtrl_chip_close_icon_content_description">លុប %1$s</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">ការជូនដំណឹង​ថ្មីៗ​លើស %1$d ហើយ</string>

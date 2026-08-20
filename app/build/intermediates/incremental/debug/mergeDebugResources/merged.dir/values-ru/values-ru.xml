@@ -54,6 +54,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Поделиться с помощью"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Поделиться с помощью <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Свернуть"</string>
+    <string name="authentication_required">Требуется аутентификация</string>
     <string name="bottomsheet_action_collapse">Свернуть нижний экран</string>
     <string name="bottomsheet_action_expand">Развернуть нижний экран</string>
     <string name="bottomsheet_action_expand_halfway">Развернуть наполовину</string>
@@ -62,6 +63,7 @@
     <string name="character_counter_content_description">Введено символов: %1$d из %2$d</string>
     <string name="character_counter_overflowed_content_description">Превышено ограничение на количество символов (%1$d из %2$d)</string>
     <string name="clear_text_end_icon_content_description">Очистить текстовое поле</string>
+    <string name="default_notification_channel_name">Играет сейчас</string>
     <string name="error_icon_content_description">Ошибка</string>
     <string name="exo_controls_cc_disabled_description">Включить субтитры</string>
     <string name="exo_controls_cc_enabled_description">Выключить субтитры</string>
@@ -131,6 +133,12 @@
     <string name="material_timepicker_pm">PM</string>
     <string name="material_timepicker_select_time">Выбор времени</string>
     <string name="material_timepicker_text_input_mode_description">Чтобы ввести время, перейдите в режим ввода текста.</string>
+    <string name="media3_controls_pause_description">Приостановить</string>
+    <string name="media3_controls_play_description">Воспроизвести</string>
+    <string name="media3_controls_seek_back_description">Перемотать назад</string>
+    <string name="media3_controls_seek_forward_description">Перемотать вперед</string>
+    <string name="media3_controls_seek_to_next_description">К следующему файлу</string>
+    <string name="media3_controls_seek_to_previous_description">К предыдущему файлу</string>
     <string name="mtrl_badge_numberless_content_description">Новое уведомление</string>
     <string name="mtrl_chip_close_icon_content_description">Удалить \"%1$s\"</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Новых уведомлений больше %1$d</string>

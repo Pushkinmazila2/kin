@@ -1916,6 +1916,13 @@
     <drawable name="exo_styled_controls_vr">@drawable/exo_icon_vr</drawable>
     <item name="material_ic_keyboard_arrow_next_black_24dp" type="drawable">@drawable/material_ic_keyboard_arrow_right_black_24dp</item>
     <item name="material_ic_keyboard_arrow_previous_black_24dp" type="drawable">@drawable/material_ic_keyboard_arrow_left_black_24dp</item>
+    <drawable name="media3_notification_pause">@android:drawable/ic_media_pause</drawable>
+    <drawable name="media3_notification_play">@android:drawable/ic_media_play</drawable>
+    <drawable name="media3_notification_seek_back">@android:drawable/ic_media_rew</drawable>
+    <drawable name="media3_notification_seek_forward">@android:drawable/ic_media_ff</drawable>
+    <drawable name="media3_notification_seek_to_next">@android:drawable/ic_media_next</drawable>
+    <drawable name="media3_notification_seek_to_previous">@android:drawable/ic_media_previous</drawable>
+    <drawable name="media3_notification_small_icon">@drawable/media3_icon_circular_play</drawable>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
     <drawable name="notification_template_icon_low_bg">#0cffffff</drawable>
     <item name="accessibility_action_clickable_span" type="id"/>
@@ -2183,6 +2190,7 @@
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_name">KinApp</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="authentication_required">Authentication required</string>
     <string name="bottom_sheet_behavior" translatable="false">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string description="A description of an accessibility action to collapse the bottom sheet [CHAR LIMIT=NONE]" name="bottomsheet_action_collapse">Collapse the bottom sheet</string>
     <string description="A description of an accessibility action to expand the bottom sheet [CHAR LIMIT=NONE]" name="bottomsheet_action_expand">Expand the bottom sheet</string>
@@ -2194,6 +2202,7 @@
     <string name="character_counter_pattern" translatable="false">%1$d/%2$d</string>
     <string name="clear_text_end_icon_content_description">Clear text</string>
     <string name="close_drawer">Закрыть меню настроек</string>
+    <string name="default_notification_channel_name">Now playing</string>
     <string description="Screen reader announcement for when a checkbox is on error. [CHAR LIMIT=NONE]" name="error_a11y_label">
     Error: invalid
   </string>
@@ -2296,6 +2305,12 @@
     <string description="Suffix for time in 12-hour standard, after noon. [CHAR_LIMIT=2]" name="material_timepicker_pm">PM</string>
     <string description="Title for the dialog with a time picker. [CHAR_LIMIT=32]" name="material_timepicker_select_time">Select time</string>
     <string name="material_timepicker_text_input_mode_description">Switch to text input mode for the time input.</string>
+    <string name="media3_controls_pause_description">Pause</string>
+    <string name="media3_controls_play_description">Play</string>
+    <string name="media3_controls_seek_back_description">Seek back</string>
+    <string name="media3_controls_seek_forward_description">Seek forward</string>
+    <string name="media3_controls_seek_to_next_description">Seek to next item</string>
+    <string name="media3_controls_seek_to_previous_description">Seek to previous item</string>
     <string description="Content description for new notification (no number count) [CHAR_LIMIT=NONE]" name="mtrl_badge_numberless_content_description">New notification</string>
     <string name="mtrl_checkbox_button_icon_path_checked" translatable="false">M14,18.2 11.4,15.6 10,17 14,21 22,13 20.6,11.6z</string>
     <string name="mtrl_checkbox_button_icon_path_group_name" translatable="false">icon</string>

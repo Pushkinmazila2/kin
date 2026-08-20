@@ -48,6 +48,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Төмөнкү менен бөлүшүү"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g> аркылуу бөлүшүү"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Жыйыштыруу"</string>
+    <string name="authentication_required">Аныктыгын текшерүү талап кылынат</string>
     <string name="bottomsheet_action_collapse">Ылдыйкы экранды жыйыштыруу</string>
     <string name="bottomsheet_action_expand">Ылдыйкы экранды жайып көрсөтүү</string>
     <string name="bottomsheet_action_expand_halfway">Жарымын жайып көрсөтүү</string>
@@ -56,6 +57,7 @@
     <string name="character_counter_content_description">%2$d ичинен %1$d символ киргизилди</string>
     <string name="character_counter_overflowed_content_description">Символдордун саны коюлган %2$d чегинен %1$d символго ашып кетти</string>
     <string name="clear_text_end_icon_content_description">Текстти тазалоо</string>
+    <string name="default_notification_channel_name">Ойноп жатат</string>
     <string name="error_icon_content_description">Ката</string>
     <string name="exo_controls_cc_disabled_description">Коштомо жазууларды иштетүү</string>
     <string name="exo_controls_cc_enabled_description">Коштомо жазууларды өчүрүү</string>
@@ -125,6 +127,12 @@
     <string name="material_timepicker_pm">PM</string>
     <string name="material_timepicker_select_time">Убакыт тандоо</string>
     <string name="material_timepicker_text_input_mode_description">Убакытты текст киргизүү режиминде киргизиңиз.</string>
+    <string name="media3_controls_pause_description">Тындыруу</string>
+    <string name="media3_controls_play_description">Ойнотуу</string>
+    <string name="media3_controls_seek_back_description">Артка түрдүрүү</string>
+    <string name="media3_controls_seek_forward_description">Алдыга түрдүрүү</string>
+    <string name="media3_controls_seek_to_next_description">Кийинки нерсеге өтүү</string>
+    <string name="media3_controls_seek_to_previous_description">Мурунку нерсеге өтүү</string>
     <string name="mtrl_badge_numberless_content_description">Жаңы билдирме</string>
     <string name="mtrl_chip_close_icon_content_description">Мазмунду алып салуу (%1$s)</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">%1$d ашуун жаңы билдирме</string>

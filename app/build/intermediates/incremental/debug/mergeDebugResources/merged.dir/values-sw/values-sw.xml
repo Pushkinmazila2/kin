@@ -48,6 +48,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Shiriki na"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Shiriki ukitumia <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Kunja"</string>
+    <string name="authentication_required">Uthibitishaji unahitajika</string>
     <string name="bottomsheet_action_collapse">Kunja safu ya chini</string>
     <string name="bottomsheet_action_expand">Panua safu ya chini</string>
     <string name="bottomsheet_action_expand_halfway">Panua nusu</string>
@@ -56,6 +57,7 @@
     <string name="character_counter_content_description">Umeweka herufi %1$d kati ya %2$d</string>
     <string name="character_counter_overflowed_content_description">Umepitisha idadi ya juu ya herufi %1$d kati ya %2$d</string>
     <string name="clear_text_end_icon_content_description">Futa maandishi</string>
+    <string name="default_notification_channel_name">Inayocheza sasa</string>
     <string name="error_icon_content_description">Hitilafu</string>
     <string name="exo_controls_cc_disabled_description">Washa manukuu</string>
     <string name="exo_controls_cc_enabled_description">Zima manukuu</string>
@@ -125,6 +127,12 @@
     <string name="material_timepicker_pm">PM</string>
     <string name="material_timepicker_select_time">Chagua wakati</string>
     <string name="material_timepicker_text_input_mode_description">Badilisha iwe katika hali ya maandishi wakati wa kuweka muda.</string>
+    <string name="media3_controls_pause_description">Sitisha</string>
+    <string name="media3_controls_play_description">Cheza</string>
+    <string name="media3_controls_seek_back_description">Sogeza nyuma</string>
+    <string name="media3_controls_seek_forward_description">Sogeza mbele</string>
+    <string name="media3_controls_seek_to_next_description">Nenda kwenye maudhui yanayofuata</string>
+    <string name="media3_controls_seek_to_previous_description">Rudi kwenye maudhui yaliyotangulia</string>
     <string name="mtrl_badge_numberless_content_description">Arifa mpya</string>
     <string name="mtrl_chip_close_icon_content_description">Ondoa %1$s</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Zaidi ya arifa %1$d mpya</string>

@@ -51,6 +51,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Делите помоћу"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Делите помоћу апликације <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Скупи"</string>
+    <string name="authentication_required">Потребна је потврда идентитета</string>
     <string name="bottomsheet_action_collapse">Скупите доњу табелу</string>
     <string name="bottomsheet_action_expand">Проширите доњу табелу</string>
     <string name="bottomsheet_action_expand_halfway">Проширите до пола</string>
@@ -59,6 +60,7 @@
     <string name="character_counter_content_description">Унети знакови: %1$d од %2$d</string>
     <string name="character_counter_overflowed_content_description">Прекорачено је ограничење броја знакова: %1$d од %2$d</string>
     <string name="clear_text_end_icon_content_description">Обриши текст</string>
+    <string name="default_notification_channel_name">Тренутно свира</string>
     <string name="error_icon_content_description">Грешка</string>
     <string name="exo_controls_cc_disabled_description">Омогући титлове</string>
     <string name="exo_controls_cc_enabled_description">Онемогући титлове</string>
@@ -128,6 +130,12 @@
     <string name="material_timepicker_pm">PM</string>
     <string name="material_timepicker_select_time">Изаберите време</string>
     <string name="material_timepicker_text_input_mode_description">Пређите у режим уноса текста ради уноса времена.</string>
+    <string name="media3_controls_pause_description">Паузирај</string>
+    <string name="media3_controls_play_description">Пусти</string>
+    <string name="media3_controls_seek_back_description">Премотај уназад</string>
+    <string name="media3_controls_seek_forward_description">Премотај унапред</string>
+    <string name="media3_controls_seek_to_next_description">Премотај на следећу ставку</string>
+    <string name="media3_controls_seek_to_previous_description">Премотај на претходну ставку</string>
     <string name="mtrl_badge_numberless_content_description">Ново обавештење</string>
     <string name="mtrl_chip_close_icon_content_description">Уклоните %1$s</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Нових обавештења: више од %1$d</string>

@@ -48,6 +48,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Jaga:"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Jagamine rakendusega <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Ahendamine"</string>
+    <string name="authentication_required">Vajalik on autentimine</string>
     <string name="bottomsheet_action_collapse">Alumise lehe ahendamine</string>
     <string name="bottomsheet_action_expand">Alumise lehe laiendamine</string>
     <string name="bottomsheet_action_expand_halfway">Laiendamine poolenisti</string>
@@ -56,6 +57,7 @@
     <string name="character_counter_content_description">Sisestatud tähemärgid: %1$d/%2$d</string>
     <string name="character_counter_overflowed_content_description">Tähemärgipiirang on ületatud: %1$d/%2$d</string>
     <string name="clear_text_end_icon_content_description">Kustuta tekst</string>
+    <string name="default_notification_channel_name">Hetkel mängimas</string>
     <string name="error_icon_content_description">Viga</string>
     <string name="exo_controls_cc_disabled_description">Luba subtiitrid</string>
     <string name="exo_controls_cc_enabled_description">Keela subtiitrid</string>
@@ -125,6 +127,12 @@
     <string name="material_timepicker_pm">PM</string>
     <string name="material_timepicker_select_time">Aja valimine</string>
     <string name="material_timepicker_text_input_mode_description">Aktiveerige kellaaja sisestamiseks tekstisisestusrežiim.</string>
+    <string name="media3_controls_pause_description">Peatamine</string>
+    <string name="media3_controls_play_description">Esitamine</string>
+    <string name="media3_controls_seek_back_description">Tagasikerimine</string>
+    <string name="media3_controls_seek_forward_description">Edasikerimine</string>
+    <string name="media3_controls_seek_to_next_description">Järgmise üksuse juurde liikumine</string>
+    <string name="media3_controls_seek_to_previous_description">Eelmise üksuse juurde liikumine</string>
     <string name="mtrl_badge_numberless_content_description">Uus märguanne</string>
     <string name="mtrl_chip_close_icon_content_description">Üksuse %1$s eemaldamine</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Rohkem kui %1$d uut märguannet</string>

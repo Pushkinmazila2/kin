@@ -48,6 +48,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Condividi con"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Condividi tramite <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Comprimi"</string>
+    <string name="authentication_required">Autenticazione richiesta</string>
     <string name="bottomsheet_action_collapse">Comprimi riquadro inferiore</string>
     <string name="bottomsheet_action_expand">Espandi riquadro inferiore</string>
     <string name="bottomsheet_action_expand_halfway">Espandi a metà</string>
@@ -56,6 +57,7 @@
     <string name="character_counter_content_description">%1$d caratteri inserirti su %2$d</string>
     <string name="character_counter_overflowed_content_description">Sono presenti %2$d caratteri in più rispetto al limite di %1$d</string>
     <string name="clear_text_end_icon_content_description">Cancella testo</string>
+    <string name="default_notification_channel_name">Ora in riproduzione</string>
     <string name="error_icon_content_description">Errore</string>
     <string name="exo_controls_cc_disabled_description">Attiva i sottotitoli</string>
     <string name="exo_controls_cc_enabled_description">Disattiva i sottotitoli</string>
@@ -125,6 +127,12 @@
     <string name="material_timepicker_pm">pm</string>
     <string name="material_timepicker_select_time">Seleziona l\'ora</string>
     <string name="material_timepicker_text_input_mode_description">Passa alla modalità di immissione testo per inserire l\'ora.</string>
+    <string name="media3_controls_pause_description">Metti in pausa</string>
+    <string name="media3_controls_play_description">Riproduci</string>
+    <string name="media3_controls_seek_back_description">Vai indietro</string>
+    <string name="media3_controls_seek_forward_description">Vai avanti</string>
+    <string name="media3_controls_seek_to_next_description">Vai all\'elemento successivo</string>
+    <string name="media3_controls_seek_to_previous_description">Vai all\'elemento precedente</string>
     <string name="mtrl_badge_numberless_content_description">Nuova notifica</string>
     <string name="mtrl_chip_close_icon_content_description">Rimuovi %1$s</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Più di %1$d nuove notifiche</string>

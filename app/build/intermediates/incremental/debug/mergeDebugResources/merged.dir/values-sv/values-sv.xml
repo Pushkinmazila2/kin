@@ -48,6 +48,7 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Dela med"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Dela med <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Komprimera"</string>
+    <string name="authentication_required">Autentisering krävs</string>
     <string name="bottomsheet_action_collapse">Komprimera arket på nedre delen av skärmen</string>
     <string name="bottomsheet_action_expand">Utöka arket på nedre delen av skärmen</string>
     <string name="bottomsheet_action_expand_halfway">Utöka till hälften</string>
@@ -56,6 +57,7 @@
     <string name="character_counter_content_description">%1$d av %2$d tecken har angetts</string>
     <string name="character_counter_overflowed_content_description">Teckengränsen har överskridits: %1$d av %2$d</string>
     <string name="clear_text_end_icon_content_description">Rensa text</string>
+    <string name="default_notification_channel_name">Nu spelas</string>
     <string name="error_icon_content_description">Fel</string>
     <string name="exo_controls_cc_disabled_description">Aktivera undertexter</string>
     <string name="exo_controls_cc_enabled_description">Inaktivera undertexter</string>
@@ -125,6 +127,12 @@
     <string name="material_timepicker_pm">EM</string>
     <string name="material_timepicker_select_time">Välj tid</string>
     <string name="material_timepicker_text_input_mode_description">Byt till textinmatningsläget och ange tid.</string>
+    <string name="media3_controls_pause_description">Pausa</string>
+    <string name="media3_controls_play_description">Spela upp</string>
+    <string name="media3_controls_seek_back_description">Hoppa bakåt</string>
+    <string name="media3_controls_seek_forward_description">Hoppa framåt</string>
+    <string name="media3_controls_seek_to_next_description">Hoppa till nästa objekt</string>
+    <string name="media3_controls_seek_to_previous_description">Hoppa till föregående objekt</string>
     <string name="mtrl_badge_numberless_content_description">Ny avisering</string>
     <string name="mtrl_chip_close_icon_content_description">Ta bort (%1$s)</string>
     <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Fler än %1$d nya aviseringar</string>
